@@ -26,9 +26,22 @@ public class ConsumingRestApplication {
 	@Bean
 	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
 		return args -> {
-			Quote quote = restTemplate.getForObject(
+			for (int i = 0; i < 1; i++) {
+				Quote quote = restTemplate.getForObject(
 					"http://localhost:8090/api/random", Quote.class);
-			log.info(quote.toString());
+				log.info(quote.toString());
+				Thread.sleep(1000);
+			}
+		
+			Track track = restTemplate.getForObject(
+					"http://localhost:8090/api/tracks/13", Track.class);
+			if (null != track) {
+				log.info(track.toString());
+			}
+			else {
+				log.error("track is null!");
+			}
+
 		};
 	}
 }
